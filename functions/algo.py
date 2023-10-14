@@ -1,6 +1,4 @@
-
-
-import numpy as np
+from tkinter import messagebox, simpledialog
 
 from values import *
 
@@ -41,14 +39,52 @@ def is_connected(aretes_df):
         return False
 
 
+def convert(seconds):
+    seconds = seconds % (24 * 3600)
+    hour = seconds // 3600
+    seconds %= 3600
+    minutes = seconds // 60
+    seconds %= 60
+
+    return "%d hours %02d minutes" % (hour, minutes)
+
+
 def getNumFromNameStation(name):
     station_info = sommets_df.loc[sommets_df['name_station'] == name]
     return station_info['num_station'].values[0]
 
 
+def getRealName(station):
+    station = station.lower()
+
+    station_info = sommets_df.loc[sommets_df['name_station'].str.lower() == station]
+
+    return station_info['name_station'].values[0]
+
+
 def getNameStationFromNum(num):
     station_info = sommets_df.loc[sommets_df['num_station'] == num]
     return station_info['name_station'].values[0]
+
+
+def est_station_valide(nom_station):
+    nom_station = nom_station.lower()
+    sommets_df_lower = sommets_df['name_station'].str.lower()
+
+    return nom_station in sommets_df_lower.tolist()
+
+
+def custom_input_dialog(parent, title, prompt):
+    parent.withdraw()
+    while True:
+        user_input = simpledialog.askstring(title, prompt)
+        if user_input is None:
+            parent.deiconify()
+            return None
+        if est_station_valide(user_input):
+            return user_input
+        else:
+            messagebox.showerror("Erreur", "Station inconnue, veuillez saisir une station valide.")
 
 
 def getNeighbors(num_sommet):
@@ -77,7 +113,7 @@ def bellman_ford(aretes_df, num_start, num_destination):
 
     # Créez une liste pour stocker les précédents nœuds
     previous_nodes = [None] * num_nodes
-    
+
     for _ in range(num_nodes - 1):
         for u, v, weight in edges:
             if distances[u] + weight < distances[v]:
@@ -92,4 +128,3 @@ def bellman_ford(aretes_df, num_start, num_destination):
         current_node = previous_nodes[current_node]
 
     return path
-
