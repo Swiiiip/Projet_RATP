@@ -2,7 +2,7 @@ import pandas as pd
 
 
 def getData():
-    with open(file='metro.txt', mode='r', encoding='utf-8') as f:
+    with open(file='..\metro.txt', mode='r', encoding='utf-8') as f:
         lines = f.readlines()[13:]
 
         sommets_data = []
