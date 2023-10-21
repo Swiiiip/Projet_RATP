@@ -9,8 +9,7 @@ while True:
         num_start = getNumFromNameStationAndLine(name=start_station_name, line=user_input)
         break
     except Exception as e:
-        print(f"Erreur : {e}")
-        print("Veuillez réessayer.\n")
+        print("Ligne incorrect. Veuillez réessayer.\n")
 
 while True:
     try:
@@ -18,7 +17,6 @@ while True:
         num_destination = getNumFromNameStationAndLine(name=destination_station_name, line=user_input)
         break
     except Exception as e:
-        print(f"Erreur : {e}")
-        print("Veuillez réessayer.")
+        print("Ligne Incorrect. Veuillez réessayer.")
 
 toString(num_start=num_start, num_destination=num_destination)
