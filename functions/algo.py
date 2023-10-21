@@ -50,9 +50,19 @@ def convert(seconds):
     return "%d hours %02d minutes" % (hour, minutes)
 
 
-def getNumFromNameStation(name):
-    station_info = sommets_df.loc[sommets_df['name_station'] == name]
-    return station_info['num_station'].values[0]
+def need_line_precision(name):
+    return sommets_df.loc[(sommets_df['name_station'] == name)]['name_station'].count() != 1
+
+
+def getNumFromNameStationAndLine(name, line):
+    stations_info = sommets_df.loc[(sommets_df['name_station'] == name)]
+
+    if line is None:
+        return stations_info['num_station'].values[0]
+
+    else:
+        station = stations_info.loc[stations_info['num_line'] == line]
+        return station['num_station'].values[0]
 
 
 def getRealName(station):
@@ -131,10 +141,7 @@ def find_direction_recursive(path, current_station, next_station, line):
     return None  # Aucun chemin jusqu'à un terminus trouvé
 
 
-def bellman_ford(start_station_name, destination_station_name):
-    num_start = getNumFromNameStation(start_station_name)
-    num_destination = getNumFromNameStation(destination_station_name)
-
+def bellman_ford(num_start, num_destination):
     all_nodes = set(aretes_df['num_start']) | set(aretes_df['num_destination'])
     distances = {num_start: 0}
     predecessors = {None: 0 for _ in all_nodes}
@@ -182,17 +189,21 @@ def bellman_ford(start_station_name, destination_station_name):
     return path, convert(distances[num_destination])
 
 
-def toString(start_station_name, destination_station_name):
-    shortest_path, total_time = bellman_ford(start_station_name, destination_station_name)
+def toString(num_start, num_destination):
+    shortest_path, total_time = bellman_ford(num_start, num_destination)
 
-    print(f'\t- Vous êtes à {start_station_name}')
+    current_location = getNameStationFromNum(num_start)
     first_station = shortest_path[0]
     second_station = shortest_path[1]
     line = getLigneStation(first_station)
 
+    print(f'\t- Vous êtes à {current_location}, ligne {line}.')
+
     direction = find_direction(path=shortest_path, current_station=first_station, next_station=second_station,
                                line=line)
-    print(f'\t- Prenez la ligne {line} direction {direction}')
+
+    if direction:
+        print(f'\t- Prenez la ligne {line} direction {direction}')
 
     for i in range(0, len(shortest_path) - 1):
         station = shortest_path[i]
@@ -206,7 +217,8 @@ def toString(start_station_name, destination_station_name):
             line = line_station
             direction = find_direction(path=shortest_path, current_station=station, next_station=next_station,
                                        line=line)
-            print(f'\t- A {name_changement}, changez et prenez la ligne {line} direction {direction}.')
+            if direction:
+                print(f'\t- A {name_changement}, changez et prenez la ligne {line} direction {direction}.')
 
-    print(f'\t- Vous devriez arriver à {destination_station_name} dans environ {total_time}.')
-
+    final_location = getNameStationFromNum(num_destination)
+    print(f'\t- Vous devriez arriver à {final_location} dans environ {total_time}.')
