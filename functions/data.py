@@ -17,7 +17,7 @@ def getData():
                 num_sommet = int(premiere_colonne[1])
                 num_line = elements[1]
                 derniere_colonne = elements[-1].split()
-                terminus = bool(derniere_colonne[0])
+                terminus = derniere_colonne[0]
                 branchement = int(derniere_colonne[1])
                 sommets_data.append([num_sommet, nom_sommet.strip(), num_line, terminus, branchement])
             else:
@@ -31,6 +31,6 @@ def getData():
         aretes_df = pd.DataFrame(aretes_data,
                                  columns=['num_start', 'num_destination', 'time_secondes'])
 
+        sommets_df['num_line'] = [value.replace(' ', '') for value in sommets_df['num_line']]
+
     return sommets_df, aretes_df
-
-

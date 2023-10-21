@@ -3,6 +3,19 @@ import tkinter as tk
 from tkinter import ttk
 
 
+def custom_input_dialog(parent, title, prompt):
+    parent.withdraw()
+    while True:
+        user_input = simpledialog.askstring(title, prompt)
+        if user_input is None:
+            parent.deiconify()
+            return None
+        if est_station_valide(user_input):
+            return user_input
+        else:
+            messagebox.showerror("Erreur", "Station inconnue, veuillez saisir une station valide.")
+
+
 class MetroGraphApp:
     def __init__(self, master):
         self.master = master
