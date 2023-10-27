@@ -1,5 +1,5 @@
 from values import *
-
+from time import strftime, gmtime
 
 def need_line_precision(name):
     return sommets_df.loc[(sommets_df['name_station'] == name)]['name_station'].count() != 1
@@ -91,3 +91,27 @@ def find_direction_recursive(path, current_station, next_station, line):
 
     # Aucun chemin jusqu'à un terminus trouvé
     return None
+
+
+def convert(seconds):
+    '''    seconds = seconds % (24 * 3600)
+    hour = seconds // 3600
+    seconds %= 3600
+    minutes = seconds // 60
+    seconds %= 60
+
+    time = ""
+    if hour > 0:
+        time += f"{hour} heure{'s' if hour > 1 else ''}"
+
+    if minutes > 0:
+        if time:
+            time += " "
+        time += f"{minutes} minute{'s' if minutes > 1 else ''}"
+
+    if seconds > 0:
+        if time:
+            time += " et "
+        time += f"{seconds} seconde{'s' if seconds > 1 else ''}"
+    '''
+    return strftime('%H:%M:%S', gmtime(seconds))

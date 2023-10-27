@@ -1,4 +1,4 @@
-from functions.convert import convert
+from random import choice
 from values import *
 
 
@@ -82,4 +82,43 @@ def bellman_ford(num_start, num_destination):
         current_node = predecessors[current_node]
     path.insert(0, num_start)
 
-    return path, convert(distances[num_destination])
+    return path, distances[num_destination]
+
+
+def prim(graph):
+    # Initialisation
+    all_nodes = graph.keys()
+    edges = dict()
+
+    global total_weight
+    total_weight = 0
+
+    # Choisir n'importe quel sommet initial
+    start_node = choice(list(all_nodes))
+    edges[start_node] = []
+
+    # Répétez jusqu'à ce que tous les sommets soient inclus
+    while len(edges.keys()) < len(all_nodes):
+        min_edge = None
+
+        # Parcourez tous les sommets inclus
+        for node in edges.keys():
+            # Parcourez toutes les arêtes du sommet actuel
+            for neighbor, weight in graph[node]:
+                # Si le voisin n'est pas inclus
+                if neighbor not in edges.keys():
+                    # Si aucune arête n'a encore été sélectionnée OU si l'arête actuelle est plus petite que l'arête sélectionnée précédente
+                    if min_edge is None or weight < min_edge[2]:
+                        min_edge = (node, neighbor, weight)
+
+        # Si une arête a été sélectionnée
+        if min_edge is not None:
+            # Ajoutez l'arête minimale à la liste des arêtes de l'arbre couvrant minimal
+            tmp = edges[min_edge[0]] + [(min_edge[1], min_edge[2])]
+            edges[min_edge[0]] = tmp
+            # Ajoutez le sommet exclu à l'ensemble des sommets inclus
+            edges[min_edge[1]] = []
+            # Ajoutez le poids de l'arête à la somme des poids
+            total_weight += min_edge[2]
+
+    return edges

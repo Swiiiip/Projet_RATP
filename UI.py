@@ -1,3 +1,5 @@
+from functions.algo import prim
+from functions.data import get_graph
 from functions.toString import toString
 import tkinter as tk
 from tkinter import ttk, simpledialog, messagebox
@@ -72,6 +74,14 @@ def calculate_shortest_path():
 
 def calculate_minimum_spanning_tree():
     # Mettez ici le code pour calculer l'arbre couvrant de poids minimum
+    graph = get_graph()
+    prim_res = prim(graph)
+    print(f"=============="
+          f"\nAlgo de Prim :"
+          f"\n=============="
+          f"\nnb d'aretes = {len(prim_res)}"
+          f"\nACPM :\n{prim_res}\n")
+
     print("Fonction à implémenter : Calcul de l'arbre couvrant de poids minimum")
 
 

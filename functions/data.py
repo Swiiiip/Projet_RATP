@@ -2,7 +2,7 @@ import pandas as pd
 
 
 def getData():
-    with open(file='..\metro.txt', mode='r', encoding='utf-8') as f:
+    with open(file='metro.txt', mode='r', encoding='utf-8') as f:
         lines = f.readlines()[13:]
 
         sommets_data = []
@@ -34,3 +34,23 @@ def getData():
         sommets_df['num_line'] = [value.replace(' ', '') for value in sommets_df['num_line']]
 
     return sommets_df, aretes_df
+
+
+def get_graph():
+    graph = {}
+    aretes_df = getData()[1]
+
+    for _, row in aretes_df.iterrows():
+        num_start = row['num_start']
+        num_destination = row['num_destination']
+        time_secondes = row['time_secondes']
+
+        if num_start not in graph:
+            graph[num_start] = []
+        if num_destination not in graph:
+            graph[num_destination] = []
+
+        graph[num_start].append((num_destination, time_secondes))
+        graph[num_destination].append((num_start, time_secondes))
+
+    return graph
