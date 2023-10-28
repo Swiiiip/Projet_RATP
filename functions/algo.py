@@ -2,15 +2,16 @@ from random import choice
 from values import *
 
 
-def is_connected():
+def is_connexe(graph: dict[int, list[tuple[int, int]]]) -> bool:
     edges = [(row['num_start'], row['num_destination']) for _, row in aretes_df.iterrows()]
 
-    # Fonction de recherche en profondeur (DFS)
-    def dfs(graph, node, visited):
+    # Fonction du parcours en profondeur
+    def PP(graph, node, visited):
         visited[node] = True
-        for neighbor in graph[node]:
+        for edge in graph[node]:
+            neighbor = edge[0]
             if not visited[neighbor]:
-                dfs(graph, neighbor, visited)
+                PP(graph, neighbor, visited)
 
     # Créez un ensemble de tous les nœuds
     nodes = set()
@@ -19,38 +20,24 @@ def is_connected():
         nodes.add(edge[1])
 
     # Créez un dictionnaire de listes d'adjacence pour représenter le graphe
-    graph = {node: [] for node in nodes}
+    g = {node: [] for node in nodes}
     for edge in edges:
-        graph[edge[0]].append(edge[1])
-        graph[edge[1]].append(edge[0])  # Si le graphe est non dirigé, ajoutez également cette ligne
+        g[edge[0]].append(edge[1])
+        g[edge[1]].append(edge[0])
 
     # Commencez la recherche en profondeur à partir d'un nœud au hasard
     start_node = list(nodes)[0]
     visited = {node: False for node in nodes}
-    dfs(graph, start_node, visited)
+    PP(graph, start_node, visited)
 
     # Vérifiez si tous les nœuds ont été visités
-    if all(visited[node] for node in nodes):
-        return True
-    else:
-        return False
+    return all(visited[node] for node in nodes)
 
 
-def bellman_ford(num_start, num_destination):
+def bellman_ford(graph: dict[int, list[tuple[int, int]]], num_start: int, num_destination: int) -> (list[int], int):
     all_nodes = set(aretes_df['num_start']) | set(aretes_df['num_destination'])
     distances = {num_start: 0}
     predecessors = {None: 0 for _ in all_nodes}
-
-    # Créer un dictionnaire pour représenter le graphe à partir du dataframe
-    graph = {}
-    for index, row in aretes_df.iterrows():
-        start, destination, time = row['num_start'], row['num_destination'], row['time_secondes']
-        if start not in graph:
-            graph[start] = []
-        if destination not in graph:
-            graph[destination] = []
-        graph[start].append((destination, time))
-        graph[destination].append((start, time))
 
     # Appliquer l'algorithme de Bellman-Ford
     num_vertices = len(graph)
@@ -85,7 +72,7 @@ def bellman_ford(num_start, num_destination):
     return path, distances[num_destination]
 
 
-def prim(graph):
+def prim(graph: dict[int, list[tuple[int, int]]]) -> dict[int, list[tuple[int, int]]]:
     # Initialisation
     all_nodes = graph.keys()
     edges = dict()
@@ -116,6 +103,11 @@ def prim(graph):
             # Ajoutez l'arête minimale à la liste des arêtes de l'arbre couvrant minimal
             tmp = edges[min_edge[0]] + [(min_edge[1], min_edge[2])]
             edges[min_edge[0]] = tmp
+
+            '''if min_edge[1] not in edges.keys():
+                edges[min_edge[1]] = []
+            tmp = edges[min_edge[1]] + [(min_edge[0], min_edge[2])]
+            edges[min_edge[1]] = tmp'''
             # Ajoutez le sommet exclu à l'ensemble des sommets inclus
             edges[min_edge[1]] = []
             # Ajoutez le poids de l'arête à la somme des poids

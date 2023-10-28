@@ -1,7 +1,7 @@
 import pandas as pd
 
 
-def getData():
+def get_data() -> tuple[pd.DataFrame, pd.DataFrame]:
     with open(file='metro.txt', mode='r', encoding='utf-8') as f:
         lines = f.readlines()[13:]
 
@@ -36,9 +36,9 @@ def getData():
     return sommets_df, aretes_df
 
 
-def get_graph():
+def get_graph() -> dict[int, list[tuple[int, int]]]:
     graph = {}
-    aretes_df = getData()[1]
+    aretes_df = get_data()[1]
 
     for _, row in aretes_df.iterrows():
         num_start = row['num_start']

@@ -1,11 +1,11 @@
 from values import *
-from time import strftime, gmtime
 
-def need_line_precision(name):
+
+def need_line_precision(name: str) -> bool:
     return sommets_df.loc[(sommets_df['name_station'] == name)]['name_station'].count() != 1
 
 
-def getNumFromNameStationAndLine(name, line):
+def get_num_from_name_station_and_line(name: str, line: str | None) -> int:
     stations_info = sommets_df.loc[(sommets_df['name_station'] == name)]
 
     if line is None:
@@ -16,7 +16,7 @@ def getNumFromNameStationAndLine(name, line):
         return station['num_station'].values[0]
 
 
-def getRealName(station):
+def get_real_name(station: str) -> str:
     station = station.lower()
 
     station_info = sommets_df.loc[sommets_df['name_station'].str.lower() == station]
@@ -24,36 +24,37 @@ def getRealName(station):
     return station_info['name_station'].values[0]
 
 
-def getNameStationFromNum(num):
+
+def get_name_station_from_num(num: int) -> str:
     station_info = sommets_df.loc[sommets_df['num_station'] == num]
     return station_info['name_station'].values[0]
 
 
-def getLigneStation(station):
+def get_ligne_station(station: int) -> str:
     station_info = sommets_df.loc[sommets_df['num_station'] == station]
     return station_info['num_line'].values[0]
 
 
-def est_station_valide(nom_station):
+def is_station_valide(nom_station: str) -> bool:
     nom_station = nom_station.lower()
     sommets_df_lower = sommets_df['name_station'].str.lower()
 
     return nom_station in sommets_df_lower.tolist()
 
 
-def getNeighbors(num_sommet):
-    neighbors = aretes_df.loc[aretes_df['num_start'] == num_sommet]
+'''def get_neighbors(num: int) -> pd.Series[int] | pd.DataFrame[int, int]:
+    neighbors = aretes_df.loc[aretes_df['num_start'] == num]
 
-    return neighbors['num_destination']
+    return neighbors['num_destination']'''
 
 
-def same_line(station, line):
+def is_same_line(station: str, line: str) -> bool:
     num_line_station = sommets_df.at[station, 'num_line']
 
     return num_line_station == line
 
 
-def same_direction(path, station, branchement):
+def is_same_direction(path: list[int], station: str, branchement: int) -> bool:
     branchement_station = sommets_df.at[station, 'branchement']
 
     if branchement_station != branchement:
@@ -63,11 +64,11 @@ def same_direction(path, station, branchement):
         return True
 
 
-def find_direction(path, current_station, next_station, line):
+def find_direction(path: list[int], current_station: int, next_station: int, line: str) -> str | None:
     return find_direction_recursive(path, current_station, next_station, line)
 
 
-def find_direction_recursive(path, current_station, next_station, line):
+def find_direction_recursive(path: list[int], current_station: int, next_station: int, line: str) -> str | None:
     current_station_info = sommets_df.loc[current_station]
     next_station_info = sommets_df.loc[next_station]
 
@@ -79,7 +80,7 @@ def find_direction_recursive(path, current_station, next_station, line):
 
     for station in possible_station:
         if (station != current_station and station != next_station
-                and same_line(station, line) and same_direction(path, station, branchement)):
+                and is_same_line(station, line) and is_same_direction(path, station, branchement)):
             direction = find_direction_recursive(path=path, current_station=next_station, next_station=station,
                                                  line=line)
             if direction:
@@ -93,8 +94,8 @@ def find_direction_recursive(path, current_station, next_station, line):
     return None
 
 
-def convert(seconds):
-    '''    seconds = seconds % (24 * 3600)
+def time_format(seconds: int) -> str:
+    seconds = seconds % (24 * 3600)
     hour = seconds // 3600
     seconds %= 3600
     minutes = seconds // 60
@@ -113,5 +114,5 @@ def convert(seconds):
         if time:
             time += " et "
         time += f"{seconds} seconde{'s' if seconds > 1 else ''}"
-    '''
-    return strftime('%H:%M:%S', gmtime(seconds))
+
+    return time

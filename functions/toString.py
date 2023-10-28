@@ -1,15 +1,15 @@
-from functions.algo import bellman_ford
-from functions.utils import getNameStationFromNum, getLigneStation, find_direction, convert
+from functions.utils import get_name_station_from_num, get_ligne_station, find_direction, time_format
 from values import sommets_df
 
 
-def toString(num_start, num_destination):
-    shortest_path, total_time = bellman_ford(num_start, num_destination)
-
-    current_location = getNameStationFromNum(num_start)
+def display_instructions(shortest_path: list[int], total_time: int) -> None:
     first_station = shortest_path[0]
     second_station = shortest_path[1]
-    line = getLigneStation(first_station)
+    last_station = shortest_path[-1]
+
+    current_location = get_name_station_from_num(first_station)
+
+    line = get_ligne_station(first_station)
 
     print(f'\t- Vous êtes à {current_location}, ligne {line}.')
 
@@ -34,5 +34,5 @@ def toString(num_start, num_destination):
             if direction:
                 print(f'\t- A {name_changement}, changez et prenez la ligne {line} direction {direction}.')
 
-    final_location = getNameStationFromNum(num_destination)
-    print(f'\t- Vous devriez arriver à {final_location} dans environ {convert(total_time)}.')
+    final_location = get_name_station_from_num(last_station)
+    print(f'\t- Vous devriez arriver à {final_location} dans environ {time_format(total_time)}.')
