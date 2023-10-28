@@ -2,6 +2,26 @@ import pandas as pd
 
 
 def get_data() -> tuple[pd.DataFrame, pd.DataFrame]:
+    """
+    Charge les données du fichier "metro.txt" et les structure en deux DataFrames pandas.
+
+    Cette fonction lit les données du fichier "metro.txt" et les organise en deux DataFrames pandas :
+    - Le premier DataFrame contient des informations sur les stations de métro.
+    - Le deuxième DataFrame contient des informations sur les connexions entre les stations.
+
+    Returns:
+        tuple[pd.DataFrame, pd.DataFrame]: Un tuple contenant deux DataFrames.
+            - Le premier DataFrame contient les colonnes suivantes :
+                - 'num_station': Le numéro de la station.
+                - 'name_station': Le nom de la station.
+                - 'num_line': Le numéro de la ligne de métro.
+                - 'terminus': Le terminus de la ligne.
+                - 'branchement': Le numéro de branchement.
+            - Le deuxième DataFrame contient les colonnes suivantes :
+                - 'num_start': Le numéro de la station de départ.
+                - 'num_destination': Le numéro de la station de destination.
+                - 'time_secondes': Le temps en secondes pour atteindre la destination depuis la station de départ.
+    """
     with open(file='metro.txt', mode='r', encoding='utf-8') as f:
         lines = f.readlines()[13:]
 
@@ -37,6 +57,17 @@ def get_data() -> tuple[pd.DataFrame, pd.DataFrame]:
 
 
 def get_graph() -> dict[int, list[tuple[int, int]]]:
+    """
+    Construit un graphe représentant les connexions entre les stations de métro.
+
+    Cette fonction utilise les données renvoyées par la fonction `get_data()` pour construire
+    un graphe représentant les connexions entre les stations de métro.
+
+    Returns:
+        dict[int, list[tuple[int, int]]]: Un dictionnaire où les clés sont les numéros de station,
+        et les valeurs sont des listes de tuples. Chaque tuple contient le numéro de la station de destination
+        et le temps en secondes pour atteindre cette destination à partir de la station d'origine.
+    """
     graph = {}
     aretes_df = get_data()[1]
 
