@@ -19,12 +19,6 @@ def is_connexe(graph: dict[int, list[tuple[int, int]]]) -> bool:
         nodes.add(edge[0])
         nodes.add(edge[1])
 
-    # Créez un dictionnaire de listes d'adjacence pour représenter le graphe
-    g = {node: [] for node in nodes}
-    for edge in edges:
-        g[edge[0]].append(edge[1])
-        g[edge[1]].append(edge[0])
-
     # Commencez la recherche en profondeur à partir d'un nœud au hasard
     start_node = list(nodes)[0]
     visited = {node: False for node in nodes}
@@ -77,7 +71,6 @@ def prim(graph: dict[int, list[tuple[int, int]]]) -> dict[int, list[tuple[int, i
     all_nodes = graph.keys()
     edges = dict()
 
-    global total_weight
     total_weight = 0
 
     # Choisir n'importe quel sommet initial
@@ -104,13 +97,18 @@ def prim(graph: dict[int, list[tuple[int, int]]]) -> dict[int, list[tuple[int, i
             tmp = edges[min_edge[0]] + [(min_edge[1], min_edge[2])]
             edges[min_edge[0]] = tmp
 
-            '''if min_edge[1] not in edges.keys():
-                edges[min_edge[1]] = []
-            tmp = edges[min_edge[1]] + [(min_edge[0], min_edge[2])]
-            edges[min_edge[1]] = tmp'''
             # Ajoutez le sommet exclu à l'ensemble des sommets inclus
-            edges[min_edge[1]] = []
+            if min_edge[1] not in edges.keys():
+                tmp = []
+            else:
+                tmp = edges[min_edge[1]]
+
+            tmp.append((min_edge[0], min_edge[2]))
+            edges[min_edge[1]] = tmp
             # Ajoutez le poids de l'arête à la somme des poids
             total_weight += min_edge[2]
 
-    return edges
+            print(f"Arêtes ajoutées : {edges[min_edge[0]]} | {edges[min_edge[1]]}")
+
+
+    return edges, total_weight

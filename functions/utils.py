@@ -5,7 +5,7 @@ def need_line_precision(name: str) -> bool:
     return sommets_df.loc[(sommets_df['name_station'] == name)]['name_station'].count() != 1
 
 
-def get_num_from_name_station_and_line(name: str, line: str | None) -> int:
+def get_num_from_name_station_and_line(name: str, line: str = None) -> int:
     stations_info = sommets_df.loc[(sommets_df['name_station'] == name)]
 
     if line is None:

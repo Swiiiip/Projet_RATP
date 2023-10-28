@@ -1,10 +1,11 @@
-from functions.algo import prim, bellman_ford, is_connexe, OLD_is_connexe
+from functions.algo import prim, bellman_ford, is_connexe
 from functions.data import get_graph
 from functions.toString import display_instructions
 import tkinter as tk
 from tkinter import ttk, simpledialog, messagebox
 
-from functions.utils import is_station_valide, get_real_name, need_line_precision, get_num_from_name_station_and_line
+from functions.utils import is_station_valide, get_real_name, need_line_precision, get_num_from_name_station_and_line, \
+    time_format
 
 
 def custom_input_dialog(parent, title, prompt):
@@ -79,10 +80,11 @@ def calculate_shortest_path():
 def calculate_minimum_spanning_tree():
     # Mettez ici le code pour calculer l'arbre couvrant de poids minimum
     graph = get_graph()
-    prim_res = prim(graph)
+    prim_res, total_time = prim(graph)
     print(f"=============="
           f"\nAlgo de Prim :"
           f"\n=============="
+          f"\nTemps total = {time_format(total_time)}"
           f"\nnb d'aretes = {len(prim_res)}"
           f"\nACPM :\n{prim_res}\n")
 
