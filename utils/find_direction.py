@@ -10,14 +10,14 @@ def find_direction(path: list[int], current_station: int, next_station: int, lin
     """
     Trouve la direction entre deux stations sur la même ligne.
 
-    Args:
-        path (list[int]): Une liste de numéros de stations représentant un chemin.
-        current_station (int): Le numéro de la station actuelle.
-        next_station (int): Le numéro de la station de destination.
-        line (str): Le numéro de ligne de métro.
+    Args :
+        path (list[int]) : Une liste de numéros de stations représentant un chemin.
+        current_station (int) : Le numéro de la station actuelle.
+        next_station (int) : Le numéro de la station de destination.
+        line (str) : Le numéro de ligne de métro.
 
-    Returns:
-        str | None: La direction entre les deux stations sur la même ligne, ou None si aucune direction n'est trouvée.
+    Returns :
+        str | None : La direction entre les deux stations sur la même ligne, ou None si aucune direction n'est trouvée.
     """
     visited = set()
     return find_direction_recursive(path, current_station, next_station, line, visited)
@@ -28,15 +28,15 @@ def find_direction_recursive(path: list[int], current_station: int, next_station
     """
     Fonction récursive pour trouver la direction entre deux stations sur la même ligne.
 
-    Args:
-        path (list[int]): Une liste de numéros de stations représentant un chemin.
-        current_station (int): Le numéro de la station actuelle.
-        next_station (int): Le numéro de la station suivante.
-        line (str): Le numéro de ligne de métro.
+    Args :
+        path (list[int]) : Une liste de numéros de stations représentant un chemin.
+        current_station (int) : Le numéro de la station actuelle.
+        next_station (int) : Le numéro de la station suivante.
+        line (str) : Le numéro de ligne de métro.
         visited (set) : la liste des stations déja visitées.
 
     Returns:
-        str | None: La direction entre les deux stations sur la même ligne, ou None si aucune direction n'est trouvée.
+        str | None : La direction entre les deux stations sur la même ligne, ou None si aucune direction n'est trouvée.
     """
     current_station_info = sommets_df.loc[current_station]
     next_station_info = sommets_df.loc[next_station]

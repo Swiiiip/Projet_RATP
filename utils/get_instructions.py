@@ -8,13 +8,13 @@ def get_instructions(shortest_path: list[int], total_time: int) -> str:
     """
     Génère des instructions pour un itinéraire le plus court calculé à l'aide de l'algorithme de Bellman-Ford.
 
-    Args:
-        shortest_path (list[int]): Une liste d'entiers représentant les numéros des stations
+    Args :
+        shortest_path (list[int]) : Une liste d'entiers représentant les numéros des stations
             sur l'itinéraire le plus court calculé avec l'algorithme de Bellman-Ford.
-        total_time (int): Le temps total estimé pour parcourir l'itinéraire en secondes.
+        total_time (int) : Le temps total estimé pour parcourir l'itinéraire en secondes.
 
-    Returns:
-        str: Une chaîne de caractères contenant les instructions pour suivre l'itinéraire,
+    Returns :
+        str : Une chaîne de caractères contenant les instructions pour suivre l'itinéraire,
             y compris les stations, les changements de ligne et le temps de trajet estimée.
 
     """
@@ -22,7 +22,7 @@ def get_instructions(shortest_path: list[int], total_time: int) -> str:
     current_location = get_name_station_from_num(first_station)
 
     if len(shortest_path) == 1:
-        return f'Vous êtes déjà à {current_location}. Vous n\'avez pas besoin de prendre le métro.'
+        return f'Vous êtes déjà à {current_location}.\nVous n\'avez pas besoin de prendre le métro.'
 
     second_station = shortest_path[1]
     last_station = shortest_path[-1]

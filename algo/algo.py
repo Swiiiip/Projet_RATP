@@ -2,15 +2,12 @@ from random import choice
 from data.values import *
 
 
-def is_connexe(graph: dict[int, list[tuple[int, int]]]) -> bool:
+def is_connexe() -> bool:
     """
     Vérifie si le graphe est connexe en utilisant un parcours en profondeur.
 
-    Args:
-        graph (dict[int, list[tuple[int, int]]]): Le graphe représenté sous forme de dictionnaire.
-
-    Returns:
-        bool: True si le graphe est connexe, False sinon.
+    Returns :
+        bool : True si le graphe est connexe, False sinon.
     """
     def PP(graph, node, visited):
         """
@@ -19,13 +16,14 @@ def is_connexe(graph: dict[int, list[tuple[int, int]]]) -> bool:
         Cette fonction est utilisée pour parcourir le graphe en profondeur à partir d'un nœud donné
         et marquer les nœuds visités.
 
-        Args:
+        Args :
             graph (dict[int, list[tuple[int, int]]]): Le graphe représenté sous forme de dictionnaire.
-            node (int): Le numéro du nœud à partir duquel commence le parcours en profondeur.
-            visited (dict[int, bool]): Un dictionnaire qui marque les nœuds visités.
+            node (int) : Le numéro du nœud à partir duquel commence le parcours en profondeur.
+            visited (dict[int, bool]) : Un dictionnaire qui marque les nœuds visités.
 
-        Returns:
-            None: La fonction ne renvoie rien, mais elle met à jour le dictionnaire `visited` pour marquer les nœuds visités.
+        Returns :
+            None : La fonction ne renvoie rien, mais elle met à jour le dictionnaire `visited`
+            pour marquer les nœuds visités.
         """
         visited[node] = True
         for edge in graph[node]:
@@ -50,20 +48,19 @@ def is_connexe(graph: dict[int, list[tuple[int, int]]]) -> bool:
     return all(visited[node] for node in nodes)
 
 
-def bellman_ford(graph: dict[int, list[tuple[int, int]]], num_start: int, num_destination: int) -> tuple[list[int], int]:
+def bellman_ford(num_start: int, num_destination: int) -> tuple[list[int], int]:
     """
     Applique l'algorithme de Bellman-Ford pour trouver le plus court chemin entre deux stations.
 
-    Args:
-        graph (dict[int, list[tuple[int, int]]]): Le graphe représenté sous forme de dictionnaire.
-        num_start (int): Le numéro de la station de départ.
-        num_destination (int): Le numéro de la station d'arrivée.
+    Args :
+        num_start (int) : Le numéro de la station de départ.
+        num_destination (int) : Le numéro de la station d'arrivée.
 
-    Returns:
-        tuple[list[int], int]: Un tuple contenant le chemin le plus court sous forme de liste de numéros de station,
+    Returns :
+        tuple[list[int], int] : Un tuple contenant le chemin le plus court sous forme de liste de numéros de station,
         et la distance totale du chemin en secondes.
-    Raises:
-        ValueError: Si le graphe contient un cycle de poids négatif ou s'il n'y a pas de chemin entre les stations.
+    Raises :
+        ValueError : Si le graphe contient un cycle de poids négatif ou s'il n'y a pas de chemin entre les stations.
     """
     all_nodes = set(aretes_df['num_start']) | set(aretes_df['num_destination'])
     distances = {num_start: 0}
@@ -102,15 +99,12 @@ def bellman_ford(graph: dict[int, list[tuple[int, int]]], num_start: int, num_de
     return path, distances[num_destination]
 
 
-def prim(graph: dict[int, list[tuple[int, int]]]) -> (dict[int, list[tuple[int, int]]], int):
+def prim() -> (dict[int, list[tuple[int, int]]], int):
     """
-    Applique l'algorithme de Prim pour trouver un arbre couvrant minimal dans le graphe.
+    Applique l'algorithme de Prim pour trouver un arbre couvrant minimal pour le réseau parisien.
 
-    Args:
-        graph (dict[int, list[tuple[int, int]]]): Le graphe représenté sous forme de dictionnaire.
-
-    Returns:
-        dict[int, list[tuple[int, int]]]: Un dictionnaire représentant un arbre couvrant minimal du graphe.
+    Returns :
+        dict[int, list[tuple[int, int]]] : Un dictionnaire représentant un arbre couvrant minimal du graphe.
         int : le temps minimal
     """
     # Initialisation

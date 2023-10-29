@@ -5,12 +5,12 @@ def get_num_from_name_station_and_line(name: str, line: str = None) -> int:
     """
     Récupère le numéro de station à partir du nom de la station et éventuellement du numéro de ligne.
 
-    Args:
-        name (str): Le nom de la station.
-        line (str, optional): Le numéro de la ligne de métro. Par défaut, il est None.
+    Args :
+        name (str) : Le nom de la station.
+        line (str, optional) : Le numéro de la ligne de métro. Par défaut, il est None.
 
-    Returns:
-        int: Le numéro de la station correspondant au nom et, éventuellement, au numéro de ligne.
+    Returns :
+        int : Le numéro de la station correspondant au nom et, éventuellement, au numéro de ligne.
     """
     stations_info = sommets_df.loc[(sommets_df['name_station'] == name)]
 
@@ -26,11 +26,11 @@ def get_name_station_from_num(num: int) -> str:
     """
     Récupère le nom de la station à partir de son numéro.
 
-    Args:
-        num (int): Le numéro de la station.
+    Args :
+        num (int) : Le numéro de la station.
 
-    Returns:
-        str: Le nom de la station correspondant au numéro.
+    Returns :
+        str : Le nom de la station correspondant au numéro.
     """
     station_info = sommets_df.loc[sommets_df['num_station'] == num]
     return station_info['name_station'].values[0]
@@ -40,11 +40,11 @@ def get_ligne_station(station: int) -> str:
     """
     Récupère le numéro de ligne de la station à partir de son numéro.
 
-    Args:
-        station (int): Le numéro de la station.
+    Args :
+        station (int) : Le numéro de la station.
 
-    Returns:
-        str: Le numéro de ligne correspondant à la station.
+    Returns :
+        str : Le numéro de ligne correspondant à la station.
     """
     station_info = sommets_df.loc[sommets_df['num_station'] == station]
     return station_info['num_line'].values[0]

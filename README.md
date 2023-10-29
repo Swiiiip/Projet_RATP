@@ -36,7 +36,6 @@ La RATP
 
 ## Tout est prêt
 + Vous pouvez désormais utiliser notre application !
-+ Si vous rencontrez des difficultés pour les étapes précédentes.<br>Ne vous inquiétez pas, nous avons tous prévus pour vous.<br>Cliquer sur  
 
 <p>
     <img src=https://img.shields.io/badge/Python-3.10-blue?style=for-the-badge&logo=python)](https://www.python.org/downloads/release/python-3100/>

@@ -2,11 +2,11 @@ def time_format(seconds: int) -> str:
     """
     Convertit un nombre de secondes en une chaîne de format heures, minutes, et secondes.
 
-    Args:
-        seconds (int): Le nombre de secondes.
+    Args :
+        seconds (int) : Le nombre de secondes.
 
-    Returns:
-        str: Une chaîne de format "X heures Y minutes et Z secondes".
+    Returns :
+        str : Une chaîne de format "X heures Y minutes et Z secondes".
     """
     seconds = seconds % (24 * 3600)
     hour = seconds // 3600
