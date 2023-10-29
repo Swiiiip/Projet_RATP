@@ -54,3 +54,19 @@ def get_graph() -> dict[int, list[tuple[int, int]]]:
         graph[num_destination].append((num_start, time_secondes))
 
     return graph
+
+
+def get_station_coordinates(filename: str) -> dict[str, tuple[int, int]]:
+    station_coordinates = {}
+
+    with open(filename, 'r', encoding='utf-8') as file:
+        for line in file:
+            x, y, station_name = line.strip().split(';')
+
+            x, y = int(x), int(y)
+            station_name = station_name.replace('@', ' ')
+
+            station_coordinates[station_name] = (x, y)
+
+    return station_coordinates
+

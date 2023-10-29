@@ -24,7 +24,6 @@ def get_real_name(station: str) -> str:
     return station_info['name_station'].values[0]
 
 
-
 def get_name_station_from_num(num: int) -> str:
     station_info = sommets_df.loc[sommets_df['num_station'] == num]
     return station_info['name_station'].values[0]

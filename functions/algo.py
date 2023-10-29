@@ -1,4 +1,5 @@
 from random import choice
+
 from values import *
 
 
@@ -28,7 +29,7 @@ def is_connexe(graph: dict[int, list[tuple[int, int]]]) -> bool:
     return all(visited[node] for node in nodes)
 
 
-def bellman_ford(graph: dict[int, list[tuple[int, int]]], num_start: int, num_destination: int) -> (list[int], int):
+def bellman_ford(graph: dict[int, list[tuple[int, int]]], num_start: int, num_destination: int) -> tuple[list[int], int]:
     all_nodes = set(aretes_df['num_start']) | set(aretes_df['num_destination'])
     distances = {num_start: 0}
     predecessors = {None: 0 for _ in all_nodes}
@@ -66,7 +67,7 @@ def bellman_ford(graph: dict[int, list[tuple[int, int]]], num_start: int, num_de
     return path, distances[num_destination]
 
 
-def prim(graph: dict[int, list[tuple[int, int]]]) -> dict[int, list[tuple[int, int]]]:
+def prim(graph: dict[int, list[tuple[int, int]]]) -> tuple[dict[int, list[tuple[int, int]]], int]:
     # Initialisation
     all_nodes = graph.keys()
     edges = dict()
@@ -96,19 +97,9 @@ def prim(graph: dict[int, list[tuple[int, int]]]) -> dict[int, list[tuple[int, i
             # Ajoutez l'arête minimale à la liste des arêtes de l'arbre couvrant minimal
             tmp = edges[min_edge[0]] + [(min_edge[1], min_edge[2])]
             edges[min_edge[0]] = tmp
+            edges[min_edge[1]] = []
 
-            # Ajoutez le sommet exclu à l'ensemble des sommets inclus
-            if min_edge[1] not in edges.keys():
-                tmp = []
-            else:
-                tmp = edges[min_edge[1]]
-
-            tmp.append((min_edge[0], min_edge[2]))
-            edges[min_edge[1]] = tmp
             # Ajoutez le poids de l'arête à la somme des poids
             total_weight += min_edge[2]
-
-            print(f"Arêtes ajoutées : {edges[min_edge[0]]} | {edges[min_edge[1]]}")
-
 
     return edges, total_weight
