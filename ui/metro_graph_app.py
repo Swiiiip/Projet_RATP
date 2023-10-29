@@ -25,7 +25,7 @@ class MetroGraphApp:
         master.title("RATP++")
         master.geometry(f"{800}x{500}")
 
-        self.logo_ratp = tk.PhotoImage(file=path.join(getcwd(), "data", "assets", "logo_ratp.png"))
+        self.logo_ratp = tk.PhotoImage(file=path.join(getcwd(), "..", "data", "assets", "logo_ratp.png"))
         self.logo_ratp = self.logo_ratp.subsample(7)
 
         self.menu_label = tk.Label(master, image=self.logo_ratp, font=("Arial", 36), bg=light_color)
@@ -100,7 +100,7 @@ class MetroGraphApp:
         popup = tk.Toplevel(self.master, bg=bg_color)
         popup.title("Allons-y!")
 
-        original_image = tk.PhotoImage(file=path.join(getcwd(), "data", "assets", "metrof_r.png"))
+        original_image = tk.PhotoImage(file=path.join(getcwd(), "..", "data", "assets", "metrof_r.png"))
         self.create_canvas(popup, original_image)
 
         side_panel_width = 300
@@ -195,7 +195,7 @@ class MetroGraphApp:
         start_station_label = tk.Label(self.side_panel, text='', font=("Arial", 16), bg=bg_color, wraplength=width)
         start_station_label.pack(pady=10)
 
-        arrow_image = tk.PhotoImage(file=path.join(getcwd(), "data", "assets", "arrow.png"))
+        arrow_image = tk.PhotoImage(file=path.join(getcwd(), "..", "data", "assets", "arrow.png"))
         arrow_label = tk.Label(self.side_panel, image=arrow_image, bg=bg_color)
         arrow_label.image = arrow_image
         arrow_label.pack(pady=5)
