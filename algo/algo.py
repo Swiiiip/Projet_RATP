@@ -1,5 +1,5 @@
 from random import choice
-from values import *
+from data.values import *
 
 
 def is_connexe(graph: dict[int, list[tuple[int, int]]]) -> bool:

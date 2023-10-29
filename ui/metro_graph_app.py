@@ -1,18 +1,17 @@
 import tkinter as tk
 from tkinter import ttk, simpledialog, messagebox
-from functions.algo import prim, bellman_ford, is_connexe
-from functions.data import get_graph
-from functions.utils import get_num_from_name_station_and_line, get_name_station_from_num, get_instructions
-from values import station_coordinates, sommets_df, decalage_y, circle_radius
+from algo.algo import prim, bellman_ford, is_connexe
+from data.values import station_coordinates, sommets_df, decalage_y, circle_radius, graph
+from utils.get_data import get_name_station_from_num, get_num_from_name_station_and_line
+from utils.get_instructions import get_instructions
 
 
 def check_connex() -> None:
     """
     Vérifie si le graphe du métro parisien est connexe et affiche un message.
     """
-    graph = get_graph()
     messagebox.showinfo(title="Connexité du métro parisien",
-                        message="Ce graphe " + ("est" if is_connexe(graph) else "n'est pas") + " connexe.")
+                        message="Ce graphe " + ("est" if is_connexe(graph=graph) else "n'est pas") + " connexe.")
 
 
 class MetroGraphApp:
@@ -50,19 +49,22 @@ class MetroGraphApp:
         self.quit_button = ttk.Button(master, text="Quitter", command=master.quit, **button_options)
         self.quit_button.pack(pady=10)
 
-    def metro_line_input_dialog(self, prompt: str, lines: list[str]) -> str:
+    def metro_line_input_dialog(self, station: str, lines: list[str]) -> str:
         """
-        Ouvre une boîte de dialogue pour permettre à l'utilisateur de choisir une ligne de métro.
+        Ouvre une boîte de dialogue pour permettre à l'utilisateur de choisir la ligne de métro pour un arrêt de métro.
 
         Args:
-            prompt (str): Le texte à afficher dans la boîte de dialogue.
+            station (str): L'arrêt de métro concerné.
             lines (list[str]): La liste des lignes possibles.
 
         Returns:
             str: La ligne de métro sélectionnée par l'utilisateur.
         """
         while True:
-            user_input = simpledialog.askstring("Préciser ligne de métro", prompt)
+            user_input = simpledialog.askstring("Préciser ligne de métro",
+                                                f"Plusieurs lignes ont été détectées pour la station "
+                                                f"{station}\n"
+                                                f"Voici les lignes possibles : {lines}\n")
 
             if user_input not in lines or user_input is None:
                 messagebox.showerror("Erreur", "Ligne inconnue, veuillez saisir une des lignes proposées!")
@@ -93,7 +95,7 @@ class MetroGraphApp:
         popup = tk.Toplevel(self.master)
         popup.title("Allons-y!")
 
-        original_image = tk.PhotoImage(file="metrof_r.png")
+        original_image = tk.PhotoImage(file="../data/utils/metrof_r.png")
         self.create_canvas(popup, original_image)
 
         side_panel_width = 300
@@ -197,8 +199,8 @@ class MetroGraphApp:
             else:
                 self.verif_ligne()
 
-                bellman_ford_path, total_time = bellman_ford(get_graph(), self.selected_journey['start'],
-                                                             self.selected_journey['end'])
+                bellman_ford_path, total_time = bellman_ford(graph=graph, num_start=self.selected_journey['start'],
+                                                             num_destination=self.selected_journey['end'])
                 text = get_instructions(bellman_ford_path, total_time)
                 self.display_path_on_map(bellman_ford_path)
 
@@ -233,7 +235,7 @@ class MetroGraphApp:
         """
         Affiche l'arbre couvrant de poids minimum (ACPM) sur la carte.
         """
-        acpm, weight = prim(get_graph())
+        acpm, weight = prim(graph=graph)
 
         for vertex, edges in acpm.items():
             for edge, weight in edges:
@@ -304,10 +306,7 @@ class MetroGraphApp:
                 while True:
                     try:
                         user_input = (
-                            self.metro_line_input_dialog(f"Plusieurs lignes ont été détectées pour la station "
-                                                         f"{station}\n"
-                                                         f"Voici les lignes possibles : {intersecting_lines}\n",
-                                                         intersecting_lines))
+                            self.metro_line_input_dialog(station, intersecting_lines))
                         result.append(get_num_from_name_station_and_line(name=station, line=user_input))
                         break
                     except IndexError:

@@ -22,7 +22,7 @@ def get_data() -> tuple[pd.DataFrame, pd.DataFrame]:
                 - 'num_destination': Le numéro de la station de destination.
                 - 'time_secondes': Le temps en secondes pour atteindre la destination depuis la station de départ.
     """
-    with open(file='metro.txt', mode='r', encoding='utf-8') as f:
+    with open(file='../data/utils/metro.txt', mode='r', encoding='utf-8') as f:
         lines = f.readlines()[13:]
 
         sommets_data = []
@@ -87,12 +87,9 @@ def get_graph() -> dict[int, list[tuple[int, int]]]:
     return graph
 
 
-def get_station_coordinates(filename: str) -> dict[str, tuple[int, int]]:
+def get_station_coordinates() -> dict[str, tuple[int, int]]:
     """
     Lit les coordonnées des stations à partir d'un fichier et les stocke dans un dictionnaire.
-
-    Args:
-        filename (str): Le nom du fichier contenant les coordonnées des stations.
 
     Returns:
         dict[str, tuple[int, int]]: Un dictionnaire avec les noms de station en tant que clés et les coordonnées (x, y) en tant que valeurs.
@@ -104,7 +101,7 @@ def get_station_coordinates(filename: str) -> dict[str, tuple[int, int]]:
 
     station_coordinates = {}
 
-    with open(file=filename, mode='r', encoding='utf-8') as file:
+    with open(file='../data/utils/pospoints.txt', mode='r', encoding='utf-8') as file:
         for line in file:
             x, y, station_name = line.strip().split(';')
 
