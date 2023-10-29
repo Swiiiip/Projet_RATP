@@ -35,7 +35,7 @@ def is_connexe(graph: dict[int, list[tuple[int, int]]]) -> bool:
 
     edges = [(row['num_start'], row['num_destination']) for _, row in aretes_df.iterrows()]
 
-    # Crée un ensemble de tous les nœuds
+    # Crée un ensemble de tous les nœuds.
     nodes = set()
     for edge in edges:
         nodes.add(edge[0])

@@ -88,9 +88,23 @@ def get_graph() -> dict[int, list[tuple[int, int]]]:
 
 
 def get_station_coordinates(filename: str) -> dict[str, tuple[int, int]]:
+    """
+    Lit les coordonnées des stations à partir d'un fichier et les stocke dans un dictionnaire.
+
+    Args:
+        filename (str): Le nom du fichier contenant les coordonnées des stations.
+
+    Returns:
+        dict[str, tuple[int, int]]: Un dictionnaire avec les noms de station en tant que clés et les coordonnées (x, y) en tant que valeurs.
+
+    Le fichier doit avoir un format spécifique où chaque ligne contient les coordonnées x et y, suivies du nom de la station
+    séparés par des points-virgules (;). Les noms de station peuvent contenir des caractères spéciaux, et le caractère '@' est
+    remplacé par un espace.
+    """
+
     station_coordinates = {}
 
-    with open(filename, 'r', encoding='utf-8') as file:
+    with open(file=filename, mode='r', encoding='utf-8') as file:
         for line in file:
             x, y, station_name = line.strip().split(';')
 
