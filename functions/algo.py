@@ -111,6 +111,7 @@ def prim(graph: dict[int, list[tuple[int, int]]]) -> (dict[int, list[tuple[int, 
 
     Returns:
         dict[int, list[tuple[int, int]]]: Un dictionnaire représentant un arbre couvrant minimal du graphe.
+        int : le temps minimal
     """
     # Initialisation
     all_nodes = graph.keys()

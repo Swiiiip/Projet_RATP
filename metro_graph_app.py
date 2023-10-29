@@ -70,11 +70,20 @@ class MetroGraphApp:
             else:
                 return user_input
 
+    def close_all_popups(self):
+        """
+        Ferme toutes les fenêtres popup.
+        """
+        for window in self.master.winfo_children():
+            if isinstance(window, tk.Toplevel):
+                window.destroy()
+
     def afficher_trajet(self) -> None:
         """
         Affiche la fenêtre de sélection du trajet.
         """
         self.selected_journey = {'start': None, 'end': None}
+        self.close_all_popups()
         self.display_map_with_stations()
 
     def display_map_with_stations(self) -> None:
@@ -116,8 +125,6 @@ class MetroGraphApp:
         """
         start_station_label = panel_components[0]
         end_station_label = panel_components[1]
-        for p in panel_components:
-            print(type(p))
 
         def on_station_click(event: tk.Event) -> None:
             """
@@ -130,8 +137,10 @@ class MetroGraphApp:
             """
             station_number = event.widget.find_withtag(tk.CURRENT)[0]
             station_name = ' '.join(event.widget.gettags(station_number)[:-1])
-            self.change_station_radius(station_number, 1.75)
-            self.change_station_color(station_number, 'red')
+
+            if self.selected_journey['start'] is None or self.selected_journey['end'] is None:
+                self.change_station_radius(station_number, 1.75)
+                self.change_station_color(station_number, 'red')
 
             if station_name == "Even Nicer :P":
                 print("Très beau choix ;)")
@@ -224,7 +233,7 @@ class MetroGraphApp:
         """
         Affiche l'arbre couvrant de poids minimum (ACPM) sur la carte.
         """
-        acpm = prim(get_graph())[0]
+        acpm, weight = prim(get_graph())
 
         for vertex, edges in acpm.items():
             for edge, weight in edges:
