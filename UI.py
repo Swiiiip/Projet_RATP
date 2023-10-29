@@ -4,7 +4,7 @@ from functions.toString import get_instructions
 import tkinter as tk
 from tkinter import ttk, simpledialog, messagebox
 
-from functions.utils import is_station_valide, get_real_name, need_line_precision, get_num_from_name_station_and_line, \
+from functions.utils import need_line_precision, get_num_from_name_station_and_line, \
     time_format, get_name_station_from_num
 from values import station_coordinates, sommets_df
 
@@ -105,9 +105,6 @@ def Calcul_Court_Chemin():
     if end_station is None:
         return  # L'utilisateur a annulé
 
-    start_station = get_real_name(start_station)
-    end_station = get_real_name(end_station)
-
     print(f"Station de départ : {start_station}")
     print(f"Station d'arrivée : {end_station}")
     root.deiconify()
@@ -178,7 +175,7 @@ def setup_map(trajet_window, original_image, panel_components):
             end_station_label.config(text=f"Arrivée :\n {station_name}")
 
         else:
-            side_panel.winfo_children()[4].config(text="Vous avez déjà choisi une station de départ et une station d'arrivée.")
+            side_panel.winfo_children()[-1].config(text="Vous avez déjà choisi une station de départ et une station d'arrivée.")
 
     # Initialize
     circle_radius = 5
