@@ -1,11 +1,33 @@
+from __future__ import annotations
+
 from values import *
 
 
 def need_line_precision(name: str) -> bool:
+    """
+   Vérifie si un nom de station nécessite une précision de ligne.
+
+   Args:
+       name (str): Le nom de la station.
+
+   Returns:
+       bool: True si le nom de station apparaît plus d'une fois dans les données,
+       indiquant qu'une précision de ligne est nécessaire. False sinon.
+    """
     return sommets_df.loc[(sommets_df['name_station'] == name)]['name_station'].count() != 1
 
 
 def get_num_from_name_station_and_line(name: str, line: str = None) -> int:
+    """
+    Récupère le numéro de station à partir du nom de la station et éventuellement du numéro de ligne.
+
+    Args:
+        name (str): Le nom de la station.
+        line (str, optional): Le numéro de la ligne de métro. Par défaut, il est None.
+
+    Returns:
+        int: Le numéro de la station correspondant au nom et, éventuellement, au numéro de ligne.
+    """
     stations_info = sommets_df.loc[(sommets_df['name_station'] == name)]
 
     if line is None:
@@ -16,44 +38,62 @@ def get_num_from_name_station_and_line(name: str, line: str = None) -> int:
         return station['num_station'].values[0]
 
 
-def get_real_name(station: str) -> str:
-    station = station.lower()
-
-    station_info = sommets_df.loc[sommets_df['name_station'].str.lower() == station]
-
-    return station_info['name_station'].values[0]
-
-
 def get_name_station_from_num(num: int) -> str:
+    """
+    Récupère le nom de la station à partir de son numéro.
+
+    Args:
+        num (int): Le numéro de la station.
+
+    Returns:
+        str: Le nom de la station correspondant au numéro.
+    """
     station_info = sommets_df.loc[sommets_df['num_station'] == num]
     return station_info['name_station'].values[0]
 
 
 def get_ligne_station(station: int) -> str:
+    """
+    Récupère le numéro de ligne de la station à partir de son numéro.
+
+    Args:
+        station (int): Le numéro de la station.
+
+    Returns:
+        str: Le numéro de ligne correspondant à la station.
+    """
     station_info = sommets_df.loc[sommets_df['num_station'] == station]
     return station_info['num_line'].values[0]
 
 
-def is_station_valide(nom_station: str) -> bool:
-    nom_station = nom_station.lower()
-    sommets_df_lower = sommets_df['name_station'].str.lower()
-
-    return nom_station in sommets_df_lower.tolist()
-
-
-'''def get_neighbors(num: int) -> pd.Series[int] | pd.DataFrame[int, int]:
-    neighbors = aretes_df.loc[aretes_df['num_start'] == num]
-
-    return neighbors['num_destination']'''
-
-
 def is_same_line(station: str, line: str) -> bool:
+    """
+    Vérifie si une station est sur la même ligne que le numéro de ligne donné.
+
+    Args:
+        station (str): Le numéro de la station.
+        line (str): Le numéro de ligne de métro.
+
+    Returns:
+        bool: True si la station est sur la même ligne que le numéro de ligne donné, False sinon.
+    """
     num_line_station = sommets_df.at[station, 'num_line']
 
     return num_line_station == line
 
 
 def is_same_direction(path: list[int], station: str, branchement: int) -> bool:
+    """
+    Vérifie si une station est dans la même direction que la station donnée.
+
+    Args:
+        path (list[int]): Une liste de numéros de stations représentant un chemin.
+        station (str): Le numéro de la station.
+        branchement (int): Le numéro de branchement de la station.
+
+    Returns:
+        bool: True si la station est dans la même direction que la station donnée, False sinon.
+    """
     branchement_station = sommets_df.at[station, 'branchement']
 
     if branchement_station != branchement:
@@ -64,10 +104,34 @@ def is_same_direction(path: list[int], station: str, branchement: int) -> bool:
 
 
 def find_direction(path: list[int], current_station: int, next_station: int, line: str) -> str | None:
+    """
+    Trouve la direction entre deux stations sur la même ligne.
+
+    Args:
+        path (list[int]): Une liste de numéros de stations représentant un chemin.
+        current_station (int): Le numéro de la station actuelle.
+        next_station (int): Le numéro de la station de destination.
+        line (str): Le numéro de ligne de métro.
+
+    Returns:
+        str | None: La direction entre les deux stations sur la même ligne, ou None si aucune direction n'est trouvée.
+    """
     return find_direction_recursive(path, current_station, next_station, line)
 
 
 def find_direction_recursive(path: list[int], current_station: int, next_station: int, line: str) -> str | None:
+    """
+    Fonction récursive pour trouver la direction entre deux stations sur la même ligne.
+
+    Args:
+        path (list[int]): Une liste de numéros de stations représentant un chemin.
+        current_station (int): Le numéro de la station actuelle.
+        next_station (int): Le numéro de la station de destination.
+        line (str): Le numéro de ligne de métro.
+
+    Returns:
+        str | None: La direction entre les deux stations sur la même ligne, ou None si aucune direction n'est trouvée.
+    """
     current_station_info = sommets_df.loc[current_station]
     next_station_info = sommets_df.loc[next_station]
 
@@ -94,6 +158,15 @@ def find_direction_recursive(path: list[int], current_station: int, next_station
 
 
 def time_format(seconds: int) -> str:
+    """
+    Convertit un nombre de secondes en une chaîne de format heures, minutes, et secondes.
+
+    Args:
+        seconds (int): Le nombre de secondes.
+
+    Returns:
+        str: Une chaîne de format "X heures Y minutes et Z secondes".
+    """
     seconds = seconds % (24 * 3600)
     hour = seconds // 3600
     seconds %= 3600
@@ -115,3 +188,49 @@ def time_format(seconds: int) -> str:
         time += f"{seconds} seconde{'s' if seconds > 1 else ''}"
 
     return time
+
+
+def display_instructions(shortest_path: list[int], total_time: int) -> None:
+    """
+   Affiche des instructions pour guider l'utilisateur à travers un itinéraire donné.
+
+   Args:
+       shortest_path (list[int]): Une liste de numéros de stations représentant l'itinéraire à suivre.
+       total_time (int): Le temps total estimé pour parcourir l'itinéraire en secondes.
+
+   Returns:
+       None: La fonction n'a pas de valeur de retour, elle imprime les instructions pour l'utilisateur.
+   """
+    first_station = shortest_path[0]
+    second_station = shortest_path[1]
+    last_station = shortest_path[-1]
+
+    current_location = get_name_station_from_num(first_station)
+
+    line = get_ligne_station(first_station)
+
+    print(f'\t- Vous êtes à {current_location}, ligne {line}.')
+
+    direction = find_direction(path=shortest_path, current_station=first_station, next_station=second_station,
+                               line=line)
+
+    if direction:
+        print(f'\t- Prenez la ligne {line} direction {direction}')
+
+    for i in range(0, len(shortest_path) - 1):
+        station = shortest_path[i]
+        station_info = sommets_df.loc[sommets_df['num_station'] == station]
+        next_station = shortest_path[i + 1]
+
+        line_station = station_info['num_line'].values[0]
+
+        if line_station != line:
+            name_changement = station_info['name_station'].values[0]
+            line = line_station
+            direction = find_direction(path=shortest_path, current_station=station, next_station=next_station,
+                                       line=line)
+            if direction:
+                print(f'\t- A {name_changement}, changez et prenez la ligne {line} direction {direction}.')
+
+    final_location = get_name_station_from_num(last_station)
+    print(f'\t- Vous devriez arriver à {final_location} dans environ {time_format(total_time)}.')
