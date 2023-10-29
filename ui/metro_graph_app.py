@@ -1,6 +1,6 @@
 import tkinter as tk
-from tkinter import ttk, simpledialog, messagebox
 from os import getcwd, path
+from tkinter import ttk, simpledialog, messagebox
 
 from algo.algo import prim, bellman_ford, is_connexe
 from data.values import station_coordinates, sommets_df, decalage_y, circle_radius, graph
@@ -50,6 +50,8 @@ class MetroGraphApp:
 
         self.quit_button = ttk.Button(master, text="Quitter", command=master.quit, **button_options)
         self.quit_button.pack(pady=10)
+        print("Application démarrée")
+        print('--------------------------')
 
     def metro_line_input_dialog(self, station: str, lines: list[str]) -> str:
         """
@@ -97,7 +99,7 @@ class MetroGraphApp:
         popup = tk.Toplevel(self.master)
         popup.title("Allons-y!")
 
-        original_image = tk.PhotoImage(file=path.join(getcwd(),"data","utils","metrof_r.png"))
+        original_image = tk.PhotoImage(file=path.join(getcwd(), "data", "utils", "metrof_r.png"))
         self.create_canvas(popup, original_image)
 
         side_panel_width = 300
@@ -153,12 +155,15 @@ class MetroGraphApp:
             if self.selected_journey['start'] is None:
                 self.selected_journey['start'] = station_name
                 start_station_label.config(text=f"Départ :\n {station_name}")
+                print(f"Départ :\n {station_name}")
             elif self.selected_journey['end'] is None:
                 self.selected_journey['end'] = station_name
                 end_station_label.config(text=f"Arrivée :\n {station_name}")
+                print(f"Arrivée :\n {station_name}")
             else:
                 self.side_panel.winfo_children()[-1].config(
                     text="Vous avez déjà choisi une station de départ et une station d'arrivée.")
+                print("Vous avez déjà choisi une station de départ et une station d'arrivée.")
 
         for station_info, (x, y) in station_coordinates.items():
             y -= decalage_y
@@ -196,15 +201,24 @@ class MetroGraphApp:
 
             if self.selected_journey['start'] is None:
                 text = "Veuillez sélectionner la station de départ."
+                print(text)
             elif self.selected_journey['end'] is None:
                 text = "Veuillez sélectionner la station d'arrivée."
+                print(text)
             else:
-                self.verif_ligne()
+                try:
+                    need_reset = False
+                    self.verif_ligne()
+                except Exception:
+                    print('Vous devez reset avant de pouvoir utiliser Bellman-ford à nouveau')
+                    need_reset = True
+                    text = "Vous devez reset avant de pouvoir utiliser Bellman-ford à nouveau"
 
-                bellman_ford_path, total_time = bellman_ford(graph=graph, num_start=self.selected_journey['start'],
-                                                             num_destination=self.selected_journey['end'])
-                text = get_instructions(bellman_ford_path, total_time)
-                self.display_path_on_map(bellman_ford_path)
+                if not need_reset:
+                    bellman_ford_path, total_time = bellman_ford(graph=graph, num_start=self.selected_journey['start'],
+                                                                 num_destination=self.selected_journey['end'])
+                    text = get_instructions(bellman_ford_path, total_time)
+                    self.display_path_on_map(bellman_ford_path)
 
             instructions_label.config(text=text)
 
@@ -238,6 +252,7 @@ class MetroGraphApp:
         Affiche l'arbre couvrant de poids minimum (ACPM) sur la carte.
         """
         acpm, weight = prim(graph=graph)
+        print(f"Application de Prim : l'arbre couvrant minimal a un poids de {weight} secondes\n")
 
         for vertex, edges in acpm.items():
             for edge, weight in edges:
@@ -285,6 +300,7 @@ class MetroGraphApp:
         """
         Réinitialise la sélection du trajet.
         """
+        print("\nRéinitialisation...\n")
         self.selected_journey['start'], self.selected_journey['end'] = None, None
         self.side_panel.winfo_children()[0].config(text="Cliquez sur votre station de départ.")
         self.side_panel.winfo_children()[1].config(text="")

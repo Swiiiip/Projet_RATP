@@ -57,4 +57,5 @@ def get_instructions(shortest_path: list[int], total_time: int) -> str:
     instructions += (f'- Vous devriez arriver à {final_location}, ligne {line_final_station}'
                      f' dans environ {time_format(total_time)}.')
 
+    print("\nApplication de l'algorithme de bellman-ford pour trouver le plus court chemin :\n" + instructions + "\n")
     return instructions
