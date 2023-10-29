@@ -35,7 +35,7 @@ La RATP
 
 
 ## Tout est prêt
-+ Vous pouvez désormais utiliser notre application!
++ Vous pouvez désormais utiliser notre application !
 + Si vous rencontrez des difficultés pour les étapes précédentes.<br>Ne vous inquiétez pas, nous avons tous prévus pour vous.<br>Cliquer sur  
 
 <p>
