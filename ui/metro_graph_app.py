@@ -5,7 +5,7 @@ from tkinter import simpledialog, messagebox
 from utils.time_format import time_format
 from algo.algo import prim, bellman_ford, is_connexe
 from data.values import station_coordinates, sommets_df, decalage_y, circle_radius, graph, bg_color, fg_color, \
-    light_color
+    light_color, images_base64
 from utils.get_data import get_name_station_from_num, get_num_from_name_station_and_line
 from utils.get_instructions import get_instructions
 
@@ -25,7 +25,7 @@ class MetroGraphApp:
         master.title("RATP++")
         master.geometry(f"{800}x{500}")
 
-        self.logo_ratp = tk.PhotoImage(file=path.join(getcwd(), "data", "assets", "logo_ratp.png"))
+        self.logo_ratp = tk.PhotoImage(data=images_base64["logo_ratp"])
         self.logo_ratp = self.logo_ratp.subsample(7)
 
         self.menu_label = tk.Label(master, image=self.logo_ratp, font=("Arial", 36), bg=light_color)
@@ -100,8 +100,8 @@ class MetroGraphApp:
         popup = tk.Toplevel(self.master, bg=bg_color)
         popup.title("Allons-y!")
 
-        original_image = tk.PhotoImage(file=path.join(getcwd(), "data", "assets", "metrof_r.png"))
-        self.create_canvas(popup, original_image)
+        original_image = tk.PhotoImage(data=images_base64["metrof_r"])
+        self.create_canvas(popup)
 
         side_panel_width = 300
         side_panel_size = (side_panel_width, original_image.height())
@@ -110,14 +110,14 @@ class MetroGraphApp:
         panel_components = self.side_panel.winfo_children()
         self.setup_map(panel_components)
 
-    def create_canvas(self, trajet_window: tk.Toplevel, original_image: tk.PhotoImage) -> None:
+    def create_canvas(self, trajet_window: tk.Toplevel) -> None:
         """
         Crée un canevas avec l'image de fond.
 
         Args :
             trajet_window (tk.Toplevel) : La fenêtre de sélection du trajet.
-            original_image (tk.PhotoImage) : L'image de fond pour le canevas.
         """
+        original_image = tk.PhotoImage(data=images_base64["metrof_r"])
         self.canvas = tk.Canvas(trajet_window, width=original_image.width(), height=original_image.height())
         self.canvas.create_image(0, 0, image=original_image, anchor=tk.NW)
         self.canvas.image = original_image
@@ -195,7 +195,7 @@ class MetroGraphApp:
         start_station_label = tk.Label(self.side_panel, text='', font=("Arial", 16), bg=bg_color, wraplength=width)
         start_station_label.pack(pady=10)
 
-        arrow_image = tk.PhotoImage(file=path.join(getcwd(), "data", "assets", "arrow.png"))
+        arrow_image = tk.PhotoImage(data=images_base64["arrow"])
         arrow_label = tk.Label(self.side_panel, image=arrow_image, bg=bg_color)
         arrow_label.image = arrow_image
         arrow_label.pack(pady=5)
