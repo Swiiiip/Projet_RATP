@@ -24,7 +24,7 @@ def get_data() -> tuple[pd.DataFrame, pd.DataFrame]:
                 - 'num_destination' : Le numéro de la station de destination.
                 - 'time_secondes' : Le temps en secondes pour atteindre la destination depuis la station de départ.
     """
-    with open(file=path.join(getcwd(), "..", "data", "assets", "metro.txt"), encoding="utf-8") as f:
+    with open(file=path.join(getcwd(), "data", "assets", "metro.txt"), encoding="utf-8") as f:
         lines = f.readlines()[13:]
 
         sommets_data = []
@@ -104,7 +104,7 @@ def get_station_coordinates() -> dict[str, tuple[int, int]]:
 
     station_coordinates = {}
 
-    with open(file=path.join(getcwd(), "..", "data", "assets", "pospoints.txt"), encoding="utf-8") as file:
+    with open(file=path.join(getcwd(), "data", "assets", "pospoints.txt"), encoding="utf-8") as file:
         for line in file:
             x, y, station_name = line.strip().split(';')
 
