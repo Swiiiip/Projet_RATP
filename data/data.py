@@ -1,4 +1,5 @@
 import pandas as pd
+from os import getcwd, path
 
 
 def get_data() -> tuple[pd.DataFrame, pd.DataFrame]:
@@ -17,12 +18,13 @@ def get_data() -> tuple[pd.DataFrame, pd.DataFrame]:
                 - 'num_line': Le numéro de la ligne de métro.
                 - 'terminus': Le terminus de la ligne.
                 - 'branchement': Le numéro de branchement.
+
             - Le deuxième DataFrame contient les colonnes suivantes :
                 - 'num_start': Le numéro de la station de départ.
                 - 'num_destination': Le numéro de la station de destination.
                 - 'time_secondes': Le temps en secondes pour atteindre la destination depuis la station de départ.
     """
-    with open(file='../data/utils/metro.txt', mode='r', encoding='utf-8') as f:
+    with open(file=path.join(getcwd(),"data","utils","metro.txt"), encoding="utf-8") as f:
         lines = f.readlines()[13:]
 
         sommets_data = []
@@ -101,7 +103,7 @@ def get_station_coordinates() -> dict[str, tuple[int, int]]:
 
     station_coordinates = {}
 
-    with open(file='../data/utils/pospoints.txt', mode='r', encoding='utf-8') as file:
+    with open(file=path.join(getcwd(),"data","utils","pospoints.txt"), encoding="utf-8") as file:
         for line in file:
             x, y, station_name = line.strip().split(';')
 

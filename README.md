@@ -26,7 +26,7 @@ La RATP
 + Cloner le projet localement : `git clone`
 + Importer le projet sur PyCharm ou Visual Studio Code
 + Installer la librairie pandas 
-  + Ouvrez un terminal dans votre environnement de projet puis tapez : `pip install pandas` 
++ Ouvrez un terminal dans votre environnement de projet puis tapez : `pip install pandas` 
 
 
 ## Lancer l'application
@@ -37,9 +37,9 @@ La RATP
 + Vous pouvez désormais utiliser notre application!
 
 <p>
-    <img src=https://img.shields.io/badge/Python-3.10-blue?style=for-the-badge&logo=python)](https://www.python.org/downloads/release/python-3100/
+    <img src=https://img.shields.io/badge/Python-3.10-blue?style=for-the-badge&logo=python)](https://www.python.org/downloads/release/python-3100/>
 </p>
 
 > **Cédric A. | Jade H. | Ahmad H. | Enzo I.** <br>
 > *L3-APP LSI2* <br>
-> *Septembre 2023* <br>
+> *Octobre 2023* <br>

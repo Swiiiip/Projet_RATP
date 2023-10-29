@@ -1,5 +1,7 @@
 import tkinter as tk
 from tkinter import ttk, simpledialog, messagebox
+from os import getcwd, path
+
 from algo.algo import prim, bellman_ford, is_connexe
 from data.values import station_coordinates, sommets_df, decalage_y, circle_radius, graph
 from utils.get_data import get_name_station_from_num, get_num_from_name_station_and_line
@@ -95,7 +97,7 @@ class MetroGraphApp:
         popup = tk.Toplevel(self.master)
         popup.title("Allons-y!")
 
-        original_image = tk.PhotoImage(file="../data/utils/metrof_r.png")
+        original_image = tk.PhotoImage(file=path.join(getcwd(),"data","utils","metrof_r.png"))
         self.create_canvas(popup, original_image)
 
         side_panel_width = 300
