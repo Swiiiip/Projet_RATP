@@ -1,6 +1,8 @@
 import tkinter as tk
 from tkinter import simpledialog, messagebox
 
+from typing import List, Tuple
+
 from utils.time_format import time_format
 from algo.algo import prim, bellman_ford, is_connexe
 from data.values import station_coordinates, sommets_df, decalage_y, circle_radius, bg_color, fg_color, \
@@ -46,7 +48,7 @@ class MetroGraphApp:
         print("Application démarrée")
         print('--------------------------')
 
-    def metro_line_input_dialog(self, station: str, lines: list[str]) -> str:
+    def metro_line_input_dialog(self, station: str, lines: List[str]) -> str:
         """
         Ouvre une boîte de dialogue pour permettre à l'utilisateur de choisir la ligne de métro pour un arrêt de métro.
 
@@ -181,7 +183,7 @@ class MetroGraphApp:
             self.canvas.tag_bind(circle, "<Button-1>", on_station_click)
             self.canvas.itemconfig(circle, tag=station_info)
 
-    def setup_sidebar(self, trajet_window: tk.Toplevel, size: tuple[int, int]) -> None:
+    def setup_sidebar(self, trajet_window: tk.Toplevel, size: Tuple[int, int]) -> None:
         """
         Configure la barre latérale avec les composants du trajet.
 
@@ -357,7 +359,7 @@ class MetroGraphApp:
 
         self.selected_journey['start'], self.selected_journey['end'] = result
 
-    def display_path_on_map(self, path: list[int]) -> None:
+    def display_path_on_map(self, path: List[int]) -> None:
         """
         Affiche le chemin sélectionné sur la carte.
 

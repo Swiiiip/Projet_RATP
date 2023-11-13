@@ -2,6 +2,8 @@ import pandas as pd
 from os import getcwd, path
 from urllib.request import urlopen
 
+from typing import Tuple, Dict, List
+
 
 def fetch_data_from_url(url: str) -> str:
     """
@@ -36,7 +38,7 @@ for name, url in data_urls.items():
     data_base64[name] = fetch_data_from_url(url)
 
 
-def get_data() -> tuple[pd.DataFrame, pd.DataFrame]:
+def get_data() -> Tuple[pd.DataFrame, pd.DataFrame]:
     """
     Charge les données du fichier "metro.txt" et les structure en deux DataFrames pandas.
 
@@ -92,7 +94,7 @@ def get_data() -> tuple[pd.DataFrame, pd.DataFrame]:
     return sommets_df, aretes_df
 
 
-def get_graph() -> dict[int, list[tuple[int, int]]]:
+def get_graph() -> Dict[int, List[Tuple[int, int]]]:
     """
     Construit un graphe représentant les connexions entre les stations de métro.
 
@@ -123,7 +125,7 @@ def get_graph() -> dict[int, list[tuple[int, int]]]:
     return graph
 
 
-def get_station_coordinates() -> dict[str, tuple[int, int]]:
+def get_station_coordinates() -> Dict[str, Tuple[int, int]]:
     """
     Lit les coordonnées des stations à partir d'un fichier et les stocke dans un dictionnaire.
 

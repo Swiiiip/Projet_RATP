@@ -1,10 +1,12 @@
+from typing import List
+
 from data.values import sommets_df
 from utils.get_data import get_name_station_from_num, get_ligne_station
 from utils.time_format import time_format
 from utils.find_direction import find_direction
 
 
-def get_instructions(shortest_path: list[int], total_time: int) -> str:
+def get_instructions(shortest_path: List[int], total_time: int) -> str:
     """
     Génère des instructions pour un itinéraire le plus court calculé à l'aide de l'algorithme de Bellman-Ford.
 

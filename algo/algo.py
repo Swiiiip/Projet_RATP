@@ -1,4 +1,7 @@
 from random import choice
+
+from typing import Tuple, List, Dict
+
 from data.values import *
 
 
@@ -48,7 +51,7 @@ def is_connexe() -> bool:
     return all(visited[node] for node in nodes)
 
 
-def bellman_ford(num_start: int, num_destination: int) -> tuple[list[int], int]:
+def bellman_ford(num_start: int, num_destination: int) -> Tuple[List[int], int]:
     """
     Applique l'algorithme de Bellman-Ford pour trouver le plus court chemin entre deux stations.
 
@@ -99,7 +102,7 @@ def bellman_ford(num_start: int, num_destination: int) -> tuple[list[int], int]:
     return path, distances[num_destination]
 
 
-def prim() -> (dict[int, list[tuple[int, int]]], int):
+def prim() -> (Dict[int, List[Tuple[int, int]]], int):
     """
     Applique l'algorithme de Prim pour trouver un arbre couvrant minimal pour le réseau parisien.
 

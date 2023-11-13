@@ -1,3 +1,5 @@
+from typing import List
+
 from data.values import sommets_df
 
 
@@ -15,7 +17,7 @@ def is_same_line(station: str, line: str) -> bool:
     return sommets_df.at[station, 'num_line'] == line
 
 
-def is_same_direction(path: list[int], station: str, branchement: int) -> bool:
+def is_same_direction(path: List[int], station: str, branchement: int) -> bool:
     """
     Vérifie si une station est dans la même direction que la station donnée.
 
